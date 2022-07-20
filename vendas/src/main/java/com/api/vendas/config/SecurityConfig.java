@@ -18,11 +18,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth); // autenticacao
+        // autenticacao
+        auth
+                .inMemoryAuthentication()
+                .passwordEncoder(passwordEncoder())
+                .withUser("user")
+                .password(passwordEncoder().encode("123"))
+                .roles("User");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http); // autorizacao
+        // autorizacao
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                    .antMatchers("/api/clientes/**")
+                    //.hasRole("user")
+                        .authenticated()
+                .and()
+                    .formLogin(); 
     }
 }
