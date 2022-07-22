@@ -2,6 +2,7 @@ package com.api.vendas.service.impl;
 
 import com.api.vendas.domain.entity.Usuario;
 import com.api.vendas.domain.repository.UsuarioRepository;
+import com.api.vendas.exception.SenhaInvalidaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +27,16 @@ public class UsuarioServiceImpl implements UserDetailsService { // interface par
         usuario.setSenha(senhaCripttografada);
 
         return usuarioRepository.save(usuario);
+    }
+
+    public UserDetails autenticar(Usuario usuario){
+        UserDetails userDetails = loadUserByUsername(usuario.getLogin());
+        boolean senhasBatem = passwordEncoder.matches(usuario.getSenha(), userDetails.getPassword()); // compara a senha digitada com o hash.
+
+        if (senhasBatem){
+            return userDetails;
+        }
+        throw new SenhaInvalidaException();
     }
 
     @Override
