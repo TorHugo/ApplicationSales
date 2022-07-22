@@ -20,7 +20,6 @@ public class UsuarioController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Usuario save(@RequestBody @Valid Usuario usuario){
-
         return usuarioService.save(usuario);
     }
 }
