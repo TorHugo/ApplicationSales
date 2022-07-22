@@ -1,4 +1,4 @@
-package com.api.vendas;
+package com.api.vendas.security.jwt;
 
 import com.api.vendas.domain.entity.Usuario;
 import io.jsonwebtoken.Claims;
